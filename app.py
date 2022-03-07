@@ -27,7 +27,7 @@ def generate_cow():
 def print_cow(message):
     
     return f"""  {"_"*len(message)}
-| {message} |
+| {message[::-1] if HIDE_COW else message} |
   {"="*len(message)}
 {generate_cow() if not HIDE_COW else "N/A"}
 from: {socket.gethostname()}
@@ -38,7 +38,7 @@ version: {VERSION}
 def default():
 
     message = request.args.get("message", "The silent type?")
-    response = make_response(print_cow(message), 200)
+    response = make_response(print_cow(message), 500 if HIDE_COW else 200)
     response.mimetype = "text/plain"
     return response
     
