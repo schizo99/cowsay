@@ -9,22 +9,27 @@ app = Flask(__name__)
 
 LOGLEVEL = logging.DEBUG if os.getenv("LOGLEVEL", "info").lower() == "debug" else logging.INFO
 VERSION = os.getenv("VERSION", "unknown version")
+HIDE_COW = True if bool(os.getenv("HIDE_COW")) else False
+EYES = os.getenv("EYES", "oo")
+TOUNGE = os.getenv("TOUNGE", " ")
 logging.basicConfig(level=LOGLEVEL, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
+def generate_cow():
+    return f"""    \\
+     \\
+      ^__^
+      ({EYES})\_______
+      (__)\       )\/\\
+       {TOUNGE}  ||----w |
+          ||     ||
+"""
 
 def print_cow(message):
     
     return f"""  {"_"*len(message)}
 | {message} |
   {"="*len(message)}
-    \\
-     \\
-      ^__^
-      (oo)\_______
-      (__)\       )\/\\
-          ||----w |
-          ||     ||
-
+{generate_cow() if not HIDE_COW else "N/A"}
 from: {socket.gethostname()}
 version: {VERSION}
 """.format(message)
