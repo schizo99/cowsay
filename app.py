@@ -12,7 +12,7 @@ VERSION = os.getenv("VERSION", "unknown version")
 logging.basicConfig(level=LOGLEVEL, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
 
-def print_cow(message="The silent type?"):
+def print_cow(message):
     
     return f"""  {"_"*len(message)}
 | {message} |
@@ -32,13 +32,9 @@ version: {VERSION}
 @app.route('/', methods=['GET'])
 def default():
 
-    message = request.args.get("message")
-    if message:
-        response = make_response(print_cow(message), 200)
-    else:
-        response = make_response(print_cow(), 200)
+    message = request.args.get("message", "The silent type?")
+    response = make_response(print_cow(message), 200)
     response.mimetype = "text/plain"
-    print(response)
     return response
     
 port = int(os.environ.get('PORT', 8080))
