@@ -2,6 +2,7 @@
 import socket
 import os
 from flask import Flask, request, jsonify, make_response
+import signal
 import logging
 import json
 # Initialize Flask app
@@ -41,7 +42,13 @@ def default():
     response = make_response(print_cow(message), 500 if HIDE_COW else 200)
     response.mimetype = "text/plain"
     return response
-    
+def signal_handler(signum, frame):
+    raise RuntimeError("Server going down")
 port = int(os.environ.get('PORT', 8080))
+
 if __name__ == '__main__':
-    app.run(threaded=True, host='0.0.0.0', port=port)
+    signal.signal(signal.SIGTERM, signal_handler)
+    try:
+        app.run(threaded=True, host='0.0.0.0', port=port)
+    except RuntimeError as msg:
+        print(msg)
