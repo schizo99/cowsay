@@ -1,8 +1,8 @@
 name: Build and push to dockerhub
 on:
-  push:
-    branches:
-      - main
+  release:
+    types: [released]
+  workflow_dispatch:
 jobs:
   build-and-push:
     name: Build web
