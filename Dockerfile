@@ -1,4 +1,4 @@
-FROM golang:1.18 as builder
+FROM golang:1.23 as builder
 LABEL maintainer="schizo99@gmail.com"
 
 # Create guestuser.
