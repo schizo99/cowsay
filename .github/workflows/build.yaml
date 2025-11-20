@@ -1,4 +1,6 @@
 name: Build and push to dockerhub
+permissions:
+  contents: read
 on:
   release:
     types: [released]
